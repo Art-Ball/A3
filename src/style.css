@@ -1,0 +1,31 @@
+body{ 
+     background-color:#a8f4ec;/* rgb(178, 243, 121) , #b9ea8e*/
+     margin: 0;
+     font-family: "Parkinsans", sans-serif;
+}
+
+h1, h2{ 
+     text-align: center;
+     font-weight: bold;
+     font-family: "Mali", cursive;
+}
+
+ul { 
+     
+     list-style: none;
+}
+ 
+ 
+li{ 
+     border-style:solid;
+     border-color: #ffffff;
+     padding: 1em;
+     background-color: #fea6ce;  /* rgb(255, 223, 109);  #F5C85E, #D3ADE1,#99E0D9,#E18AB1*/
+     border-radius: .5em;   
+     color: #29020d;
+     font-size: 17px;
+     font-weight:500;
+     display: flex;
+     align-items: center;
+}
+

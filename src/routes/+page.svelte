@@ -1,13 +1,13 @@
 <script> 
 
      import Todo from './Todo.svelte'; 
+     import '../style.css';
 </script>
 
 
-<h1> To Do App</h1>
+<h1> You can do it!</h1>
 
-<Todo /> 
-
+ <Todo />
 <style> 
      
 </style>
