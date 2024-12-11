@@ -1,6 +1,13 @@
+html, body { 
+     min-height: 100vh;
+     
+}
 body{ 
-     background-color:#a8f4ec;/* rgb(178, 243, 121) , #b9ea8e*/
+     background-image: url("$lib/images/pain.svg");
+     background-size: cover;
+     background-repeat: no-repeat;
      margin: 0;
+     max-width: 100%;
      font-family: "Parkinsans", sans-serif;
 }
 
@@ -9,7 +16,9 @@ h1, h2{
      font-weight: bold;
      font-family: "Mali", cursive;
 }
-
+h1 { 
+     font-size: 50px;
+}
 ul { 
      
      list-style: none;

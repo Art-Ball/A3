@@ -1,11 +1,25 @@
 <script>
+  import {onMount} from 'svelte';
   import { text } from "@sveltejs/kit";
-
- 
+  import  bkg  from "$lib/images/pain.svg"; 
+  import trashCan from"$lib/images/TrashcanIcon.svg";
+  import redCan from "$lib/images/TrashcanIconRED.svg";
 let todoItem = $state('');
 let todoList = $state([]);
 let doneList = $state([]);
+let storedList;
 
+onMount(() =>{ 
+     storedList = localStorage.getItem('storedList');
+     if (storedList){
+          todoList = ( JSON.parse(storedList));
+     }
+})
+
+function updateList() {
+     return storedList = localStorage.setItem('storedList', JSON.stringify
+          (todoList));
+}
 function cap(w) { 
      return w.charAt(0).toUpperCase() + w.slice(1);
 }
@@ -23,25 +37,30 @@ function addItem(event) {
      }];
 
      todoItem = '';
+     updateList();
  }
 
  /* making  function that allows us to remove items */
 function removeItem(index){ 
 
      todoList = todoList.toSpliced(index,1); /*  allowing us to target specific list item to get rid of it */
+     updateList();
 }
 
 
 function nuke(){ /* clear function that puts the list items to 0 (none) */
      todoList = [];
+     localStorage.clear();
 }
 
 $effect(() => {
      doneList = todoList.filter((item) => item.done);
+     updateList();
 })
 function undoThis(item) {
 
      item.done = !item.done;
+     updateList();
 }
 
 $inspect('To Do List', todoList); 
@@ -66,7 +85,9 @@ $inspect('Done List', doneList);
           <li>
                <input type="checkbox" bind:checked = {item.done}><!-- adding check boxes to list item -->
                <span class:done= {item.done}>{item.text}</span>
-               <button type="button" onclick={() => removeItem(index)}>x</button> <!-- adding an x/ remove button that gets rid of one list item -->
+               <button type="button" onclick={() => removeItem(index)}> 
+                    <span class="can"></span>
+               </button> <!-- adding an x/ remove button that gets rid of one list item -->
           </li>
           {/each}
 
@@ -86,7 +107,7 @@ $inspect('Done List', doneList);
      {#each doneList as item}
      <li>
           <span>{item.text}</span>
-          <button type="button" onclick={() => undoThis(item)}> Remove</button>
+          <button type="button" onclick={() => undoThis(item)}></button>
      </li>
      {/each}
  </div>
@@ -95,6 +116,16 @@ $inspect('Done List', doneList);
 
 <style>
 
+.can {
+     background: url('$lib/images/TrashcanIcon.svg') no-repeat transparent;
+     background-size: 100% auto;
+     height: 2.5em;
+     width: 2em;
+     display: inline-block;
+     &:hover {
+          background-image: url('$lib/images/TrashcanIconRED.svg');
+     }
+}
  
 .lists{
      display: flex;
@@ -104,17 +135,27 @@ $inspect('Done List', doneList);
           flex-shrink: 0;
      }
 }
+
 .done-list{
-     
-     margin-top: 9vw;
+     margin-top: 8.5vw;
+
 }
+.done-list li{
+     padding: 1.5em;
+
+}
+
 .done-list button{
+     background: url('$lib/images/TrashcanIcon.svg') no-repeat transparent;
      padding: .4em;
     padding-left: 1em;
     padding-right: 1em;
+    height: 2.5em;
+    width: 2em;
      cursor: pointer;
      &:hover{ 
-          background-color: rgb(238, 65, 65);
+          background-image: url('$lib/images/TrashcanIconRED.svg');
+   
      }
 }
 
@@ -136,15 +177,13 @@ span.done {
 }
 li button{ 
      margin-left: 6vw;
-     background-color: rgb(244, 244, 243);
-     border-color: #29020d;
+     background-color: transparent;
+     border-color: transparent;
      border-radius: 10px;
     
-    
+    margin-left: auto;
      cursor: pointer;
-     &:hover{ 
-          background-color: rgb(240, 81, 81);
-     }
+
 }
 input[type="checkbox"] { 
     height: 2vh;
@@ -167,9 +206,11 @@ input[type="text"] {
 }
  
 form button{
+     
      padding-left: 1vw;
      padding-right: 1vw;
      padding: .6vw;
+     border-left: none;
      border-top-right-radius: 3em;
      border-bottom-right-radius: 3em;
      border-color: #ffef96;
@@ -188,6 +229,7 @@ button{
 
 form{ 
      padding-bottom: 4vw;
+     display: flex;
 }
 .nukeButton { 
    margin-left: 2.4vw;
@@ -199,6 +241,7 @@ form{
      border-color: #29020d;
      &:hover{ 
           background-color: rgb(240, 81, 81);
+     
      }
 }
 button:disabled{ 
@@ -208,5 +251,8 @@ button:disabled{
      padding-bottom: .5vw;
      border-radius: 1em;
 }
-
+.trashPic {
+     height: 2em;
+     width: 2em;
+}
 </style>
